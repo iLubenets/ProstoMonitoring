@@ -1,10 +1,10 @@
-var config = require('./../bin/collector-config'),
+var config = require('./../bin/listener-config'),
     http = require('http');
 
 var data = JSON.stringify({
-        "type": "request",
-        "time": "2011-09-12T21:33:12Z",
-        "data": {
+        "event": "request",
+        "registered": "2011-09-12T21:33:12Z",
+        "message": {
             "host": "web14",
             "path": "/search",
             "query": {
