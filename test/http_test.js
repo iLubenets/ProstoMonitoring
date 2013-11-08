@@ -4,6 +4,7 @@ var config = require('./../bin/listener-config'),
 var data = JSON.stringify({
         "event": "request",
         "registered": "2011-09-12T21:33:12Z",
+        "level": 100,
         "message": {
             "host": "web14",
             "path": "/search",
