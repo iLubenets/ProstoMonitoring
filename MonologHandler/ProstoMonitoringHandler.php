@@ -1,24 +1,16 @@
 <?php
 
-/*
- * This file is part of the Monolog package.
- *
- * (c) Igor Lubenets <il@prostobank.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Prosto\FrameworkBundle\MonologHandler;
 
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Handler\MissingExtensionException;
 use Monolog\Logger;
+use Symfony\Component\Debug\Exception\ContextErrorException;
 
 /**
- * Logs to ProstoMonitoring.
+ * Logging to ProstoMonitoring.
  *
- * @link https://github.com/iLubenets/Monitoring
+ * @link https://github.com/iLubenets/ProstoMonitoring
  * @author il <il@prostobank.com>
  */
 class ProstoMonitoringHandler extends AbstractProcessingHandler
@@ -33,7 +25,7 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
     /**
      * Create a Cube handler
      *
-     * @throws UnexpectedValueException when given url is not a valid url.
+     * @throws \UnexpectedValueException when given url is not a valid url.
      * A valid url must consists of three parts : protocol://host:port
      * Only valid protocol used by Cube are http and udp
      */
@@ -42,12 +34,12 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
         $urlInfos = parse_url($url);
 
         if (!isset($urlInfos['scheme']) || !isset($urlInfos['host']) || !isset($urlInfos['port'])) {
-            throw new \UnexpectedValueException('URL "'.$url.'" is not valid');
+            throw new \UnexpectedValueException('URL "' . $url . '" is not valid');
         }
 
         if (!in_array($urlInfos['scheme'], $this->acceptedSchemes)) {
             throw new \UnexpectedValueException(
-                'Invalid protocol (' . $urlInfos['scheme']  . ').'
+                'Invalid protocol (' . $urlInfos['scheme'] . ').'
                 . ' Valid options are ' . implode(', ', $this->acceptedSchemes));
         }
 
@@ -61,7 +53,7 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
     /**
      * Establish a connection to an UDP socket
      *
-     * @throws LogicException when unable to connect to the socket
+     * @throws \LogicException when unable to connect to the socket
      */
     protected function connectUdp()
     {
@@ -88,7 +80,7 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
             throw new \LogicException('The curl extension is needed to use http URLs with the CubeHandler');
         }
 
-        $this->httpConnection = curl_init('http://'.$this->host.':'.$this->port);
+        $this->httpConnection = curl_init('http://' . $this->host . ':' . $this->port);
 
         if (!$this->httpConnection) {
             throw new \LogicException('Unable to connect to ' . $this->host . ':' . $this->port);
@@ -117,7 +109,7 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
         // Other fields
         $data['message'] = $record;
 
-        $this->{'write'.$this->scheme}(json_encode($data));
+        $this->{'write' . $this->scheme}(json_encode($data));
     }
 
     private function writeUdp($data)
@@ -126,7 +118,11 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
             $this->connectUdp();
         }
 
-        socket_send($this->udpConnection, $data, strlen($data), 0);
+        try {
+            socket_send($this->udpConnection, $data, strlen($data), 0);
+        } catch (ContextErrorException $e) {
+            //@todo: logging or not logging...
+        }
     }
 
     private function writeHttp($data)
@@ -135,10 +131,14 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
             $this->connectHttp();
         }
 
-        curl_setopt($this->httpConnection, CURLOPT_POSTFIELDS, $data );
-        curl_setopt($this->httpConnection, CURLOPT_HTTPHEADER, array(
+        curl_setopt($this->httpConnection, CURLOPT_POSTFIELDS, $data);
+        curl_setopt(
+            $this->httpConnection,
+            CURLOPT_HTTPHEADER,
+            array(
                 'Content-Type: application/json',
-                'Content-Length: ' . strlen('['.$data.']'))
+                'Content-Length: ' . strlen('[' . $data . ']')
+            )
         );
 
         return curl_exec($this->httpConnection);
