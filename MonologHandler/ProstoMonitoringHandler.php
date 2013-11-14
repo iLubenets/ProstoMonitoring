@@ -21,6 +21,7 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
     private $host = null;
     private $port = null;
     private $acceptedSchemes = array('http', 'udp');
+    private $excludedExceptionClasses = array();
 
     /**
      * Create a Cube handler
@@ -29,7 +30,7 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
      * A valid url must consists of three parts : protocol://host:port
      * Only valid protocol used by Cube are http and udp
      */
-    public function __construct($url, $level = Logger::DEBUG, $bubble = true)
+    public function __construct($url, $level = Logger::DEBUG, $bubble = true, $excludedExceptionClasses = array())
     {
         $urlInfos = parse_url($url);
 
@@ -46,6 +47,8 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
         $this->scheme = $urlInfos['scheme'];
         $this->host = $urlInfos['host'];
         $this->port = $urlInfos['port'];
+
+        $this->excludedExceptionClasses = $excludedExceptionClasses;
 
         parent::__construct($level, $bubble);
     }
@@ -95,19 +98,38 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
      */
     protected function write(array $record)
     {
-        $data = array('registered' => $record['datetime']->format('Y-m-d\TH:i:s.u'));
-        unset($record['datetime']);
-        if (isset($record['context']['type'])) {
-            $data['event'] = $record['context']['type'];
-            unset($record['context']['type']);
-        } else {
-            $data['event'] = $record['channel'];
-            unset($record['channel']);
+        // Global event parameters
+        $data = array(
+            'registered' => $record['datetime']->format('Y-m-d\TH:i:s.u'),
+            'event' => isset($record['context']['type']) ? $record['context']['type'] : $record['channel'],
+            'level' => $record['level'],
+            'message' => $record['message'],
+            'data' => array(),
+            'is_exception' => false
+        );
+        // If event ie exception
+        if (isset($record['context']['exception']) && $record['context']['exception'] instanceof \Exception) {
+            /** @var \Exception $exception */
+            $exception = $record['context']['exception'];
+            if (in_array(get_class($exception), $this->excludedExceptionClasses)) {
+                return;
+            }
+            $data['is_exception'] = true;
+            $data['exception'] = array(
+                'class' => get_class($exception),
+                'message' => $exception->getMessage(),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine()
+            );
         }
-        $data['level'] = $record['level'];
+        // Clear event
+        unset($record['message']);
+        unset($record['datetime']);
+        unset($record['channel']);
         unset($record['level']);
-        // Other fields
-        $data['message'] = $record;
+        unset($record['context']);
+        // Save not categorized parameters
+        $data['data'] = $record;
 
         $this->{'write' . $this->scheme}(json_encode($data));
     }
