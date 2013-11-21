@@ -9,6 +9,8 @@ CREATE TABLE default_event
   registered timestamp without time zone NOT NULL,
   level integer,
   message text,
+  la numeric,
+  memory_usage numeric,
   data json,
   CONSTRAINT pk_default_event_id PRIMARY KEY (id)
 );
@@ -24,6 +26,8 @@ CREATE TABLE exception_event
   message text,
   file text,
   line integer,
+  la numeric,
+  memory_usage numeric,
   data json,
   CONSTRAINT pk_exception_event_id PRIMARY KEY (id)
 );

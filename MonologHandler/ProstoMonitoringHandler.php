@@ -98,16 +98,18 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
      */
     protected function write(array $record)
     {
-        // Global event parameters
+        // Common options for all Event
         $data = array(
             'registered' => $record['datetime']->format('Y-m-d\TH:i:s.u'),
             'event' => isset($record['context']['type']) ? $record['context']['type'] : $record['channel'],
             'level' => $record['level'],
             'message' => $record['message'],
+            'la' => function_exists( 'sys_getloadavg' ) ? sys_getloadavg() : 0,
+            'memory_usage' => memory_get_usage(),
             'data' => array(),
             'is_exception' => false
         );
-        // If event ie exception
+        // If the event is exception
         if (isset($record['context']['exception']) && $record['context']['exception'] instanceof \Exception) {
             /** @var \Exception $exception */
             $exception = $record['context']['exception'];
@@ -122,13 +124,13 @@ class ProstoMonitoringHandler extends AbstractProcessingHandler
                 'line' => $exception->getLine()
             );
         }
-        // Clear event
+        // Removes excess
         unset($record['message']);
         unset($record['datetime']);
         unset($record['channel']);
         unset($record['level']);
         unset($record['context']);
-        // Save not categorized parameters
+        // Record the remaining
         $data['data'] = $record;
 
         $this->{'write' . $this->scheme}(json_encode($data));
