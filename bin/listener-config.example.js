@@ -19,5 +19,15 @@ module.exports = {
                 "level": 200
             }
         }
+    },
+    // List of email that receive mail, when trouble happens
+    "mailer":{
+        // create "emails" dir end write there mail as file
+        "save_to_file": false,
+        "debug":{
+            "subject": 'ProstoMonitoring error',
+            "from": 'prostomonitoring@example.com',
+            "to": 'admin@example.com, admin2@example.com'
+        }
     }
 };
