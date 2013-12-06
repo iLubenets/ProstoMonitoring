@@ -22,6 +22,16 @@ module.exports = {
     },
     // List of email that receive mail, when trouble happens
     "mailer":{
+        // sendmail, smtp
+        "transport": 'sendmail',
+        // if smtp https://github.com/andris9/Nodemailer
+        "smtp_options": {
+            service: "Gmail",
+            auth: {
+                user: "gmail.user@gmail.com",
+                pass: "userpass"
+            }
+        },
         // create "emails" dir end write there mail as file
         "save_to_file": false,
         "debug":{
