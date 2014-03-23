@@ -3,6 +3,8 @@ Prosto Monitoring
 
 **Prosto Monitoring** is a system for collecting and monitoring software events and metrics.
 
+![General View](https://github.com/iLubenets/ProstoMonitoring/blob/master/docs/images/GeneralView.png?raw=true)
+
 ## Components
 ### Listener
 **Listener** is a Node.js daemon that listens events and metrics from applications sent over UDP. 
