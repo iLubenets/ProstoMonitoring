@@ -9,18 +9,22 @@ Prosto Monitoring
 
 ### Data storage
 Listener saves incoming data to the database.
+
 Now we support only PostgreSQL.
 
 ### Reporter
 **Reporter** is a application for visualizing saved data. Reporter uses Reporter API.
+
 *In progress.*
 
 ### Reporter API
 Reporter API allows to query saved data using simple language.
+
 *In progress.*
 
 ### Alerter
 Alerter analyses saved data using given criteria and informs assigned persons about criteria triggering.
+
 *In progress.*
 
 ### How to launch daemon
