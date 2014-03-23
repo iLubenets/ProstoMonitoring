@@ -34,11 +34,8 @@ Alerter analyses saved data using given criteria and informs assigned persons ab
 ## Installation
 1. Install Node.js if you don't have it yet.
 2. Configure Prosto Monitoring
-3. Start daemon
-```
-node bin/listener.js
-```
-4. Configure Symfony Monolog handler or develop your own solution to send application metrics and/or events to the Listener.
+3. Start daemon `node bin/listener.js`
+4. Configure Symfony Monolog handler or develop your own solution to send data to the Listener.
 
 
 ### How to stop daemon
