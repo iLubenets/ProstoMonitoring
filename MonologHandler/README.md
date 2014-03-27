@@ -12,4 +12,4 @@ monolog:
 services:
     monolog.prosto_monitoring_handler:
         class: Prosto\FrameworkBundle\MonologHandler\ProstoMonitoringHandler
-        arguments: ["udp://91.218.212.175:1180", 300]
+        arguments: ["udp://127.0.0.1:1180", 300]
