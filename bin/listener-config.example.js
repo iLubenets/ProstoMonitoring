@@ -7,8 +7,7 @@ module.exports = {
     },
     // PostgreSQL connection string
     "database":{
-        "connection-string": "user:password@host:5432/prosto.monitoring",
-        "table-postfix": "event"
+        "connection-string": "user:password@host:5432/prosto.monitoring"
     },
     // Events configuration
     "event":{
