@@ -2,6 +2,7 @@
 module.exports = {
     // Number of events we collect before save
     "server":{
+        "host": "localhost",
         "http-port": 1080,
         "udp-port": 1180
     },

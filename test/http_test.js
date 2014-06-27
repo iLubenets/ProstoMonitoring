@@ -17,8 +17,8 @@ var data = JSON.stringify({
         }
     }),
     options = {
-        hostname: config['server-host'],
-        port: config['http-port'],
+        hostname: config['server']['host'],
+        port: config['server']['http-port'],
         path: '/',
         method: 'POST',
         headers: {
