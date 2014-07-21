@@ -19,9 +19,16 @@ var dgram = require('dgram'),
 var client = dgram.createSocket("udp4");
 var iteration = 10;
 for (var i = 0; i < iteration; i++) {
-    client.send(message, 0, message.length, options['udp-port'], "localhost", function (error, bytes) {
-        if (error) console.log(error);
-        else console.log(" Succes send! bytes: " + bytes);
-        //client.close();
-    });
+    client.send(
+        message,
+        0,
+        message.length,
+        options['server']['udp-port'],
+        options['server']['host'],
+        function (error, bytes) {
+            if (error) console.log(error);
+            else console.log(" Succes send! bytes: " + bytes);
+            //client.close();
+        }
+    );
 }
