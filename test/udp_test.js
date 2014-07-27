@@ -3,8 +3,14 @@ var dgram = require('dgram'),
     message = new Buffer(JSON.stringify({
         "event": "request",
         "registered": "2011-09-12T21:33:12Z",
-        "level": 200,
-        "message": {
+        "level": 400,
+        "exception": {
+            "class": 'TestClass',
+            "message" : "Test message",
+            "file" : "test/Projects/ProstoMonitoring.js",
+            "line" : "123"
+        },
+        "data": {
             "host": "web14",
             "path": "/search",
             "query": {
@@ -13,7 +19,9 @@ var dgram = require('dgram'),
             "duration_ms": 241,
             "status": 200,
             "level_name": "DEBUG"
-        }
+        },
+        "la": [1, 2, 3],
+        "memory_usage": 10
     }));
 
 var client = dgram.createSocket("udp4");
