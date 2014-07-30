@@ -1,6 +1,5 @@
 // Default configuration for development.
 module.exports = {
-    // Number of events we collect before save
     "server":{
         "host": "localhost",
         "http-port": 1080,
@@ -12,7 +11,7 @@ module.exports = {
     },
     // Events configuration
     "event":{
-        "cached-event-num": 10,
+        "cached-event-num": 10, // Number of events we collect before save
         "default-event": "default",
         "custom": {
             "exception": {
