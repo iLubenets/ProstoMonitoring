@@ -1,0 +1,29 @@
+{
+  "name": "ProstoMonitoring",
+  "version": "0.0.2",
+  "description": "A system for measuring application events and metrics",
+  "main": "bin/listener.js",
+  "author": {
+    "name": "Igor Lubenets",
+    "email": "ilubenets@gmail.com"
+  },
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/iLubenets/ProstoMonitoring/issues"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "dependencies": {
+    "moment": "~2.7.0",
+    "nodemailer": "~1.1.1",
+    "pg": "~3.4.0",
+    "express": "4.7.2",
+    "body-parser": "~1.5.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/iLubenets/ProstoMonitoring.git"
+  }
+}
