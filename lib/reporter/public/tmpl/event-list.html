@@ -10,7 +10,10 @@
         </thead>
         <tbody>
         <tr ng-repeat='event in eventList'>
-            <td ng-repeat='(name, value) in event'>{{value}}</td>
+            <td ng-repeat='(name, value) in event'>
+                <a href="#/event/{{eventName}}/id/{{value}}" ng-show="name == 'id'">{{value}}</a>
+                <span ng-show="name != 'id'">{{value}}</span>
+            </td>
         </tr>
         </tbody>
     </table>

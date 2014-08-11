@@ -25,12 +25,12 @@
 
             <div class="col-sm-3 col-md-2 sidebar" ng-controller="navCtrl">
               <ul class="nav nav-sidebar">
-                <li ng-repeat='event in eventList' ng-class="isActive({{event}})"><a href="#/event/{{event}}">Event {{event}}</a></li>
+                <li ng-repeat='event in eventList' ng-class="isActive('event/'+event)"><a href="#/event/{{event}}">Event {{event}}</a></li>
               </ul>
 
               <ul class="nav nav-sidebar">
-                <li><a href="#/api" ng-class="isActive('api')">Api</a></li>
-                <li><a href="#/about" ng-class="isActive('about')">About</a></li>
+                <li ng-class="isActive('api')"><a href="#/api">Api</a></li>
+                <li ng-class="isActive('about')"><a href="#/about">About</a></li>
               </ul>
             </div>
 

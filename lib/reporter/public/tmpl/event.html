@@ -1,0 +1,19 @@
+<h2 class="sub-header">Event {{eventName}} #{{eventId}}</h2>
+
+<div class="table-responsive">
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Property</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat='(property, value) in event'>
+            <td>{{property}}</td>
+            <td>{{value}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
