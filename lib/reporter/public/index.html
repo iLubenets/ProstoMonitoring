@@ -1,52 +1,57 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en" ng-app='ProstoMonitoringApp'>
 <head>
     <meta charset="utf-8">
-    <title>Ember Starter Kit</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <title>ProstoMonitoring</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/base.css">
 </head>
 <body>
 
-<script type="text/x-handlebars">
-    <div class="navbar">
-      <div class="navbar-inner">
-        <a class="brand" href="#">ProstoMonitoring</a>
-        <ul class="nav">
-          <li>{{#link-to 'api'}}Api routes{{/link-to}}</li>
-        </ul>
-      </div>
-    </div>
+<div id='content'>
 
-    {{outlet}}
-  </script>
-
-<script type="text/x-handlebars" id="api">
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <table class='table'>
-            <thead>
-              <tr><th>Api routes</th></tr>
-            </thead>
-            {{#each model}}
-            <tr><td>
-                {{route.path}}
-            </td></tr>
-            {{/each}}
-          </table>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">ProstoMonitoring</a>
         </div>
       </div>
     </div>
-</script>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-sm-3 col-md-2 sidebar" ng-controller="navCtrl">
+              <ul class="nav nav-sidebar">
+                <li ng-repeat='event in eventList' ng-class="isActive({{event}})"><a href="#/event/{{event}}">Event {{event}}</a></li>
+              </ul>
+
+              <ul class="nav nav-sidebar">
+                <li><a href="#/api" ng-class="isActive('api')">Api</a></li>
+                <li><a href="#/about" ng-class="isActive('about')">About</a></li>
+              </ul>
+            </div>
+
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div ng-view></div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
 
 <script src="js/libs/jquery-2.1.1.min.js"></script>
-<script src="js/libs/handlebars-v1.3.0.js"></script>
-<script src="js/libs/ember.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js"></script>
+<script src="js/libs/bootstrap.min.js"></script>
+<script src="js/libs/angular.js"></script>
+<script src="js/libs/angular-route.js"></script>
+
 <script src="js/app.js"></script>
+<script src="js/controllers.js"></script>
 
 </body>
 </html>

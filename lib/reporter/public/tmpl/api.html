@@ -1,0 +1,18 @@
+<h2 class="sub-header">Api routes</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Header</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat='entry in api'>
+            <td>{{$index}}</td>
+            <td>{{entry.route.path}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
