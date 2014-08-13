@@ -1,19 +1,18 @@
-<h2 class="sub-header">Event list</h2>
+<h2 class="sub-header">{{eventName | capitalize}} event list</h2>
 
 <div class="table-responsive">
 
-    <table class="table table-striped">
+    <table class="table table-striped" ng-if="eventList.length > 0">
         <thead>
         <tr>
-            <th ng-repeat='(name, value) in eventListHeader'>{{value}}</th>
+            <th>ID</th>
+            <th ng-repeat='(name, value) in eventListHeader' ng-if="name != 'id'">{{value}}</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat='event in eventList'>
-            <td ng-repeat='(name, value) in event'>
-                <a href="#/event/{{eventName}}/id/{{value}}" ng-show="name == 'id'">{{value}}</a>
-                <span ng-show="name != 'id'">{{value}}</span>
-            </td>
+            <td><a href="#/event/{{eventName}}/id/{{event.id}}">{{event.id}}</a></td>
+            <td ng-repeat='(name, value) in event' ng-if="name != 'id'">{{value}}</td>
         </tr>
         </tbody>
     </table>

@@ -10,9 +10,20 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat='(property, value) in event'>
+        <tr>
+            <td>ID</td>
+            <td>{{event.id}}</td>
+        </tr>
+        <tr ng-repeat='(property, value) in event' ng-if="name != 'id'">
             <td>{{property}}</td>
-            <td>{{value}}</td>
+
+            <td ng-if="isJSON(value) == true">
+                <pre>{{value | json}}</pre>
+            </td>
+            <td ng-if="isJSON(value) != true">
+                {{value}}
+            </td>
+
         </tr>
         </tbody>
     </table>
