@@ -1,3 +1,4 @@
+node_modules
 bin/listener-config.js
 bin/reporter-config.js
 emails
